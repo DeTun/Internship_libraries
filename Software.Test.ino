@@ -14,19 +14,18 @@ ADE9000Class ade9000;
 #define ADE9000_h
 
 #define SPI_SPEED 5000000
-#define CS_PIN 1
-#define PM_1 4
+#define CS_PIN 16
+#define PM_1 15
 #define IRQ_1 3
 
 void setup() {
   Serial.begin(9600);
-  ade9000.init(CS_PIN, PM_1, IRQ_1, SPI_SPEED);
+  ade9000.begin(CS_PIN, PM_1, IRQ_1, SPI_SPEED);
 }
 
-
 void loop() {
-  uint32_t temperature_cfg = ade9000.read32(ADDR_TEMP_CFG);
-  uint32_t temperature_rslt = ade9000.read32(ADDR_TEMP_RSLT);
+  uint32_t temperature_cfg = ade9000.readRegister(ADDR_TEMP_CFG);
+  uint32_t temperature_rslt = ade9000.readRegister(ADDR_TEMP_RSLT);
 
   float temperature = ((temperature_rslt >> 8) & 0xFF) + ((temperature_rslt & 0xFF) / 256.0);
   Serial.print("Temperature: ");
